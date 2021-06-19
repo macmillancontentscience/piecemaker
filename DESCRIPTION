@@ -28,3 +28,5 @@ BugReports: https://github.com/macmillancontentscience/piecemaker/issues
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Imports: 
+    rlang

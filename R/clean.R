@@ -12,4 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Code will go here.
+#' Clean Up Text to UTF-8
+#'
+#' Text cleaning works best if the encoding is known. This function attempts to
+#' convert text to UTF-8 encoding, and provides an informative error if that is
+#' not possible.
+#'
+#' @param text A character vector to attempt to convert.
+#'
+#' @return The text with formal UTF-8 encoding, if possible.
+#' @export
+#'
+#' @examples
+#' validate_utf8("fa\xE7ile")
+validate_utf8 <- function(text) {
+  if (all(validUTF8(text))) {
+    Encoding(text) <- "UTF-8"
+    return(text)
+  } else {
+    converted <- iconv(text, "latin1", "UTF-8")
+    if (all(converted == text)) {
+      return(converted)
+    } else {
+      rlang::abort(
+        message = "Unsupported string type.",
+        class = "encoding_error"
+      )
+    }
+  }
+}
