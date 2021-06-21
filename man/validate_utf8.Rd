@@ -7,7 +7,7 @@
 validate_utf8(text)
 }
 \arguments{
-\item{text}{A character vector to attempt to convert.}
+\item{text}{A character vector to clean.}
 }
 \value{
 The text with formal UTF-8 encoding, if possible.
