@@ -2,7 +2,7 @@
 % Please edit documentation in R/clean.R
 \name{clean_text}
 \alias{clean_text}
-\title{Title}
+\title{Prepare Text for Tokenization}
 \usage{
 clean_text(
   text,
@@ -31,7 +31,9 @@ characters?}
 The character vector, cleaned as specified.
 }
 \description{
-Title
+This function combines the other functions in this package to prepare text
+for tokenization. The text gets converted to valid UTF-8 (if possible), and
+then various cleaning functions are applied.
 }
 \examples{
 piece1 <- " This is a    \n\nfa\xE7ile\n\n    example.\n"

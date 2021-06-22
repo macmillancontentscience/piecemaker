@@ -46,17 +46,15 @@ validate_utf8.character <- function(text) {
     function(this_text) {
       converted <- enc2utf8(this_text)
       if (converted != this_text) {
-        converted <- iconv(text, "latin1", "UTF-8")
-        if (converted != this_text) {
-          error_message <- paste(
-            "Unsupported string type in",
-            this_text
-          )
-          rlang::abort(
-            message = error_message,
-            class = "encoding_error"
-          )
-        }
+        # I can't find a way to trigger this but let's keep it in case.
+        error_message <- paste( # nocov start
+          "Unsupported string type in",
+          this_text
+        )
+        rlang::abort(
+          message = error_message,
+          class = "encoding_error"
+        ) # nocov end
       }
 
       # Now check whether we've created a monster.
@@ -171,7 +169,11 @@ remove_diacritics <- function(text) {
   )
 }
 
-#' Title
+#' Prepare Text for Tokenization
+#'
+#' This function combines the other functions in this package to prepare text
+#' for tokenization. The text gets converted to valid UTF-8 (if possible), and
+#' then various cleaning functions are applied.
 #'
 #' @inheritParams remove_control_characters
 #' @param whitespace Logical scalar; should we squish whitespace characters
