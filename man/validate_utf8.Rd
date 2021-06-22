@@ -7,7 +7,7 @@
 validate_utf8(text)
 }
 \arguments{
-\item{text}{A character vector to attempt to convert.}
+\item{text}{A character vector to clean.}
 }
 \value{
 The text with formal UTF-8 encoding, if possible.
@@ -18,5 +18,8 @@ convert text to UTF-8 encoding, and provides an informative error if that is
 not possible.
 }
 \examples{
-validate_utf8("fa\xE7ile")
+text <- "fa\xE7ile"
+# Specify the encoding so the example is the same on all systems.
+Encoding(text) <- "latin1"
+validate_utf8(text)
 }
