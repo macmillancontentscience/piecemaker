@@ -1,5 +1,6 @@
 test_that("Can validate UTF8", {
   non_utf8_text <- c("fa\xE7ile", "no fancy characters")
+  Encoding(non_utf8_text) <- c("latin1", "unknown")
   utf8_text <- c("façile", "no fancy characters")
 
   expect_identical(
@@ -66,8 +67,10 @@ test_that("validate_utf8 fails gracefully for non-text.", {
 })
 
 test_that("clean_text cleans text.", {
+  piece1 <- " text    \n\nfa\xE7ile\n\n    text.\n"
+  Encoding(piece1) <- "latin1"
   example_text <- paste(
-    " text    \n\nfa\xE7ile\n\n    text.\n",
+    piece1,
     "text, \a, text,",
     intToUtf8(65533)
   )

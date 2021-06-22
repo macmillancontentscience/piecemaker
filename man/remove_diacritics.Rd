@@ -19,5 +19,5 @@ spell a word that should have a diacritical mark, you can convert all such
 characters to their simpler equivalent character.
 }
 \examples{
-remove_diacritics("faÃ§ile rÃ©sumÃ©")
+remove_diacritics("façile résumé")
 }
