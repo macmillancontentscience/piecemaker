@@ -14,8 +14,8 @@ A character vector the same length as the input text, with spaces
 added between ideographs.
 }
 \description{
-To tokenize Chinese, Japanese, and Korean (CJK) characters, it's convenient to
-add spaces around the characters.
+To tokenize Chinese, Japanese, and Korean (CJK) characters, it's convenient
+to add spaces around the characters.
 }
 \examples{
 to_space <- intToUtf8(13312:13320)

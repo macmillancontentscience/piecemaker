@@ -14,8 +14,8 @@
 
 #' Add Spaces Around CJK Ideographs
 #'
-#' To tokenize Chinese, Japanese, and Korean (CJK) characters, it's convenient to
-#' add spaces around the characters.
+#' To tokenize Chinese, Japanese, and Korean (CJK) characters, it's convenient
+#' to add spaces around the characters.
 #'
 #' @inheritParams validate_utf8
 #'
@@ -77,10 +77,11 @@ space_cjk <- function(text) {
 
 #' Make Regex for Unicode Blocks
 #'
-#' @param unicode_block_name The name of the unicode block as it appears at
-#'   https://en.wikipedia.org/wiki/Unicode_block#List_of_blocks
+#' @param unicode_block_name The name of the unicode block as it appears in
+#'   \href{https://en.wikipedia.org/wiki/Unicode_block#List_of_blocks}{the
+#'   Wikipedia list of Unicode blocks}.
 #'
-#' @return A regex wildcard box in the style "[a-z]"
+#' @return A regex wildcard box in square brackets.
 #' @keywords internal
 .make_unicode_block_regex <- function(unicode_block_name) {
   # Note: If you pass one bad name among many, the error will be silent.

@@ -7,11 +7,12 @@
 .make_unicode_block_regex(unicode_block_name)
 }
 \arguments{
-\item{unicode_block_name}{The name of the unicode block as it appears at
-https://en.wikipedia.org/wiki/Unicode_block#List_of_blocks}
+\item{unicode_block_name}{The name of the unicode block as it appears in
+\href{https://en.wikipedia.org/wiki/Unicode_block#List_of_blocks}{the
+Wikipedia list of Unicode blocks}.}
 }
 \value{
-A regex wildcard box in the style "\link{a-z}"
+A regex wildcard box in square brackets.
 }
 \description{
 Make Regex for Unicode Blocks

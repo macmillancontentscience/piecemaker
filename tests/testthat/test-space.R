@@ -44,3 +44,11 @@ test_that("space_cjk works.", {
     expected_result
   )
 })
+
+test_that("Regex helper works.", {
+  expect_error(
+    .make_unicode_block_regex("fake"),
+    regexp = "No unicode blocks found",
+    class = "unicode_block_name_error"
+  )
+})
