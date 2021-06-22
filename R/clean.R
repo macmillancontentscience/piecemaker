@@ -34,22 +34,47 @@ validate_utf8 <- function(text) {
 
 #' @export
 validate_utf8.character <- function(text) {
-  if (all(validUTF8(text))) {
-    Encoding(text) <- "UTF-8"
-    return(text)
-  } else {
-    # We *should* deal with multiple options here, but for now this is the one
-    # I've explicitly run into and been able to easily fix.
-    converted <- iconv(text, "latin1", "UTF-8")
-    if (all(converted == text)) {
+  # Figure out which ones are fine as-is:
+  in_encoding_status <- validUTF8(text)
+
+  # Make sure those ones are explicitly set.
+  Encoding(text[in_encoding_status]) <- "UTF-8"
+
+  # Now try to coerce the leftovers to UTF-8.
+  text[!in_encoding_status] <- purrr::map_chr(
+    text[!in_encoding_status],
+    function(this_text) {
+      converted <- enc2utf8(this_text)
+      if (converted != this_text) {
+        converted <- iconv(text, "latin1", "UTF-8")
+        if (converted != this_text) {
+          error_message <- paste(
+            "Unsupported string type in",
+            this_text
+          )
+          rlang::abort(
+            message = error_message,
+            class = "encoding_error"
+          )
+        }
+      }
+
+      # Now check whether we've created a monster.
+      if (!validEnc(converted)) {
+        error_message <- paste(
+          "Unsupported string type in",
+          this_text
+        )
+        rlang::abort(
+          message = error_message,
+          class = "encoding_error"
+        )
+      }
       return(converted)
-    } else {
-      rlang::abort(
-        message = "Unsupported string type.",
-        class = "encoding_error"
-      )
     }
-  }
+  )
+
+  return(text)
 }
 
 #' @export

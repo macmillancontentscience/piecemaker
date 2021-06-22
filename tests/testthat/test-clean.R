@@ -14,10 +14,11 @@ test_that("Can validate UTF8", {
 
   # From ?validUTF8
   bad_character <- "\xfa\xb4\xbf\xbf\x9f"
+  Encoding(bad_character) <- "UTF-8"
 
   expect_error(
     validate_utf8(bad_character),
-    regexp = "Unsupported string type",
+    regexp = "Unsupported string type in",
     class = "encoding_error"
   )
 
@@ -30,14 +31,18 @@ test_that("Can validate UTF8", {
     class = "encoding_error"
   )
 
-  # We could also try coercing things more surgically. I don't care about that
-  # yet. Er, it seemed like it worked, but it fails when I run the test suite
-  # automatically, so I'm keeping this here to sort out.
-
-  # expect_identical(
-  #   validate_utf8(c(utf8_text, non_utf8_text)),
-  #   c(utf8_text, utf8_text)
-  # )
+  # Now combined UTF-8 and latin1 and make sure that works:
+  piece1 <- "Latin1: fa\xE7ile"
+  Encoding(piece1) <- "latin1"
+  piece2 <- "UTF-8: fa\u00e7ile"
+  Encoding(piece2) <- "UTF-8"
+  resulting_piece1 <- "Latin1: fa\u00e7ile"
+  Encoding(resulting_piece1) <- "UTF-8"
+  combined <- c(piece1, piece2)
+  expect_identical(
+    validate_utf8(combined),
+    c(resulting_piece1, piece2)
+  )
 })
 
 test_that("validate_utf8 fails gracefully for non-text.", {
