@@ -18,5 +18,8 @@ convert text to UTF-8 encoding, and provides an informative error if that is
 not possible.
 }
 \examples{
-validate_utf8("fa\xE7ile")
+text <- "fa\xE7ile"
+# Specify the encoding so the example is the same on all systems.
+Encoding(text) <- "latin1"
+validate_utf8(text)
 }

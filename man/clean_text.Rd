@@ -34,8 +34,11 @@ The character vector, cleaned as specified.
 Title
 }
 \examples{
+piece1 <- " This is a    \n\nfa\xE7ile\n\n    example.\n"
+# Specify encoding so this example behaves the same on all systems.
+Encoding(piece1) <- "latin1"
 example_text <- paste(
-  " This is a    \n\nfa\xE7ile\n\n    example.\n",
+  piece1,
   "It has the bell character, \a, and the replacement character,",
   intToUtf8(65533)
 )

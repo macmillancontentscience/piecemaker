@@ -19,5 +19,9 @@ spell a word that should have a diacritical mark, you can convert all such
 characters to their simpler equivalent character.
 }
 \examples{
-remove_diacritics("façile résumé")
+# This text can appear differently between machines if we aren't careful, so
+# we explicitly encode the desired characters.
+sample_text <- "fa\u00e7ile r\u00e9sum\u00e9"
+sample_text
+remove_diacritics(sample_text)
 }

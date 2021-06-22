@@ -24,7 +24,10 @@
 #' @export
 #'
 #' @examples
-#' validate_utf8("fa\xE7ile")
+#' text <- "fa\xE7ile"
+#' # Specify the encoding so the example is the same on all systems.
+#' Encoding(text) <- "latin1"
+#' validate_utf8(text)
 validate_utf8 <- function(text) {
   UseMethod("validate_utf8")
 }
@@ -128,7 +131,11 @@ remove_replacement_characters <- function(text) {
 #' @export
 #'
 #' @examples
-#' remove_diacritics("façile résumé")
+#' # This text can appear differently between machines if we aren't careful, so
+#' # we explicitly encode the desired characters.
+#' sample_text <- "fa\u00e7ile r\u00e9sum\u00e9"
+#' sample_text
+#' remove_diacritics(sample_text)
 remove_diacritics <- function(text) {
   return(
     stringi::stri_replace_all_regex(
@@ -155,8 +162,11 @@ remove_diacritics <- function(text) {
 #' @export
 #'
 #' @examples
+#' piece1 <- " This is a    \n\nfa\xE7ile\n\n    example.\n"
+#' # Specify encoding so this example behaves the same on all systems.
+#' Encoding(piece1) <- "latin1"
 #' example_text <- paste(
-#'   " This is a    \n\nfa\xE7ile\n\n    example.\n",
+#'   piece1,
 #'   "It has the bell character, \a, and the replacement character,",
 #'   intToUtf8(65533)
 #' )
