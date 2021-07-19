@@ -29,11 +29,13 @@
 #' Encoding(text) <- "latin1"
 #' validate_utf8(text)
 validate_utf8 <- function(text) {
-  UseMethod("validate_utf8")
-}
+  if (!is.character(text)) {
+    rlang::abort(
+      message = "text must be a character vector.",
+      class = "non_text_error"
+    )
+  }
 
-#' @export
-validate_utf8.character <- function(text) {
   # Figure out which ones are fine as-is:
   in_encoding_status <- validUTF8(text)
 
@@ -73,14 +75,6 @@ validate_utf8.character <- function(text) {
   )
 
   return(text)
-}
-
-#' @export
-validate_utf8.default <- function(text) {
-  rlang::abort(
-    message = "text must be a character vector.",
-    class = "non_text_error"
-  )
 }
 
 #' Remove Non-Character Characters

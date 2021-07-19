@@ -37,7 +37,7 @@ test_that("space_cjk works.", {
     ),
     " "
   )
-  # The individual spacer functions  create noisy spacing, the things str_squish
+  # The individual spacer functions create noisy spacing, the things str_squish
   # fixes. That will be fixed in a master wrapper.
   expect_identical(
     test_result,
