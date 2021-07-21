@@ -135,10 +135,11 @@ space_punctuation <- function(text, hyphens = TRUE, abbreviations = TRUE) {
   # This feels hacky but I can't find a better way than to protect the things I
   # want to preserve.
   if (!hyphens) {
+    hyphen_string <- "PIEC4EMAK2ERHYP4HENZ2XZ"
     text <- stringr::str_replace_all(
       text,
-      "-",
-      "PIECEMAKERHYPHEN"
+      "((?<=\\w)-(?=\\w))|((?<=\\w)-(?=\\s))|((?<=\\s)-(?=\\w))",
+      hyphen_string
     )
   }
 
@@ -146,10 +147,11 @@ space_punctuation <- function(text, hyphens = TRUE, abbreviations = TRUE) {
     # We *attempt* to protect abbreviations, but there will be cases where we
     # miss, or treat apostrophes that were meant to be used as single quotes as
     # if they're part of an abbreviation.
+    apostrophe_string <- "PIEC4EMAK2ERAPOS4TROPHEZ2XZ"
     text <- stringr::str_replace_all(
       text,
       "(?<=\\w)'(?=\\w)",
-      "PIECEMAKERAPOSTROPHE"
+      apostrophe_string
     )
   }
 
@@ -166,17 +168,14 @@ space_punctuation <- function(text, hyphens = TRUE, abbreviations = TRUE) {
   if (!hyphens) {
     text <- stringr::str_replace_all(
       text,
-      "PIECEMAKERHYPHEN",
+      hyphen_string,
       "-"
     )
   }
   if (!abbreviations) {
-    # We *attempt* to protect abbreviations, but there will be cases where we
-    # miss, or treat apostrophes that were meant to be used as single quotes as
-    # if they're part of an abbreviation.
     text <- stringr::str_replace_all(
       text,
-      "PIECEMAKERAPOSTROPHE",
+      apostrophe_string,
       "'"
     )
   }
