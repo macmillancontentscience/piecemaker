@@ -35,14 +35,31 @@ devtools::install_github("macmillancontentscience/piecemaker")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+{piecemaker} helps to prepare text for tokenization. For example, it can
+help you clean out strange encoding, whitespace, and special characters.
 
 ``` r
 library(piecemaker)
-## basic example code
-```
 
-Examples coming soon.
+piece1 <- " This is a    \n\nfa\xE7ile\n\n    example.\n"
+# Specify encoding so this example behaves the same on all systems.
+Encoding(piece1) <- "latin1"
+example_text <- paste(
+  piece1,
+  "It has the bell character, \a, and the replacement character,",
+  intToUtf8(65533)
+)
+clean_text(example_text)
+#> [1] "This is a facile example. It has the bell character, , and the replacement character,"
+clean_text(example_text, whitespace = FALSE)
+#> [1] " This is a    facile    example. It has the bell character, , and the replacement character, "
+clean_text(example_text, control_characters = FALSE)
+#> [1] "This is a facile example. It has the bell character, \a, and the replacement character,"
+clean_text(example_text, replacement_characters = FALSE)
+#> [1] "This is a facile example. It has the bell character, , and the replacement character, <U+FFFD>"
+clean_text(example_text, diacritics = FALSE)
+#> [1] "This is a façile example. It has the bell character, , and the replacement character,"
+```
 
 ## Code of Conduct
 

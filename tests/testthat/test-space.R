@@ -37,7 +37,7 @@ test_that("space_cjk works.", {
     ),
     " "
   )
-  # The individual spacer functions  create noisy spacing, the things str_squish
+  # The individual spacer functions create noisy spacing, the things str_squish
   # fixes. That will be fixed in a master wrapper.
   expect_identical(
     test_result,
@@ -51,4 +51,28 @@ test_that("Regex helper works.", {
     regexp = "No unicode blocks found",
     class = "unicode_block_name_error"
   )
+})
+
+test_that("Can space punctuation.", {
+  input_text <- "Have some 'gosh-darn' $5 text. Isn't it lovely?"
+  expected_text1 <- "Have some ' gosh - darn ' $ 5 text . Isn ' t it lovely ?"
+  expected_text2 <- "Have some ' gosh-darn ' $ 5 text . Isn ' t it lovely ?"
+  expected_text3 <- "Have some ' gosh-darn ' $ 5 text . Isn't it lovely ?"
+
+  test_result <- stringr::str_squish(
+    space_punctuation(input_text)
+  )
+  expect_identical(test_result, expected_text1)
+
+  test_result <- stringr::str_squish(
+    space_punctuation(input_text, hyphens = FALSE)
+  )
+  expect_identical(test_result, expected_text2)
+
+  test_result <- stringr::str_squish(
+    space_punctuation(
+      input_text, hyphens = FALSE, abbreviations = FALSE
+    )
+  )
+  expect_identical(test_result, expected_text3)
 })
