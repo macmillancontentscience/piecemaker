@@ -9,10 +9,11 @@ space_punctuation(text, hyphens = TRUE, abbreviations = TRUE)
 \arguments{
 \item{text}{A character vector to clean.}
 
-\item{hyphens}{Logical; should hyphens be treated as punctuation?}
+\item{hyphens}{Logical; treat hyphens between letters and at the start/end of
+words as punctuation? Other hyphens are always treated as punctuation.}
 
-\item{abbreviations}{Logical; should ' between letters be treated as
-punctuation?}
+\item{abbreviations}{Logical; treat apostrophes between letters as
+punctuation? Other apostrophes are always treated as punctuation.}
 }
 \value{
 A character vector the same length as the input text, with spaces

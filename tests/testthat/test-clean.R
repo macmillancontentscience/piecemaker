@@ -71,7 +71,7 @@ test_that("validate_utf8 fails gracefully for non-text.", {
   )
 })
 
-test_that("clean_text cleans text.", {
+test_that("prepare_text cleans text.", {
   piece1 <- " text    \n\nfa\xE7ile\n\n    text.\n"
   Encoding(piece1) <- "latin1"
   example_text <- paste(
@@ -81,27 +81,37 @@ test_that("clean_text cleans text.", {
   )
 
   expect_identical(
-    clean_text(example_text),
-    "text facile text. text, , text,"
+    prepare_text(example_text),
+    "text facile text . text , , text ,"
   )
 
   expect_identical(
-    clean_text(example_text, whitespace = FALSE),
+    prepare_text(example_text, whitespace = FALSE),
+    " text    facile    text .  text ,   ,  text ,  "
+  )
+
+  expect_identical(
+    prepare_text(example_text, whitespace = FALSE, punctuation = FALSE),
     " text    facile    text. text, , text, "
   )
 
   expect_identical(
-    clean_text(example_text, control_characters = FALSE),
-    "text facile text. text, \a, text,"
+    prepare_text(example_text, control_characters = FALSE),
+    "text facile text . text , \a , text ,"
   )
 
   expect_identical(
-    clean_text(example_text, replacement_characters = FALSE),
-    "text facile text. text, , text, \uFFFD"
+    prepare_text(example_text, replacement_characters = FALSE),
+    "text facile text . text , , text , \uFFFD"
   )
 
   expect_identical(
-    clean_text(example_text, diacritics = FALSE),
-    "text façile text. text, , text,"
+    prepare_text(example_text, diacritics = FALSE),
+    "text façile text . text , , text ,"
+  )
+
+  expect_identical(
+    prepare_text(example_text, cjk = FALSE),
+    "text facile text . text , , text ,"
   )
 })

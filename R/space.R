@@ -117,9 +117,10 @@ space_cjk <- function(text) {
 #' types of punctuation together as part of the word.
 #'
 #' @inheritParams validate_utf8
-#' @param hyphens Logical; should hyphens be treated as punctuation?
-#' @param abbreviations Logical; should ' between letters be treated as
-#'   punctuation?
+#' @param hyphens Logical; treat hyphens between letters and at the start/end of
+#'   words as punctuation? Other hyphens are always treated as punctuation.
+#' @param abbreviations Logical; treat apostrophes between letters as
+#'   punctuation? Other apostrophes are always treated as punctuation.
 #'
 #' @return A character vector the same length as the input text, with spaces
 #'   added around punctuation characters.

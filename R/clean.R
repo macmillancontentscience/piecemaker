@@ -170,14 +170,18 @@ remove_diacritics <- function(text) {
 #' then various cleaning functions are applied.
 #'
 #' @inheritParams remove_control_characters
-#' @param whitespace Logical scalar; should we squish whitespace characters
-#'   (using \code{\link[stringr]{str_squish}})?
-#' @param control_characters Logical scalar; should we remove control
-#'   characters?
-#' @param remove_replacement_characters Logical scalar; should we remove the
-#'   "replacement character", \code{U-FFFD}?
-#' @param diacritics Logical scalar; should we remove diacritical marks
-#'   (accents, etc) from characters?
+#' @inheritDotParams space_punctuation
+#' @param whitespace Logical scalar; squish whitespace characters (using
+#'   \code{\link[stringr]{str_squish}})?
+#' @param control_characters Logical scalar; remove control characters?
+#' @param remove_replacement_characters Logical scalar; remove the "replacement
+#'   character", \code{U-FFFD}?
+#' @param diacritics Logical scalar; remove diacritical marks (accents, etc)
+#'   from characters?
+#' @param cjk Logical scalar; add spaces around Chinese/Japanese/Korean
+#'   ideographs?
+#' @param punctuation Logical scalar; add spaces around punctuation (to make it
+#'   easier to keep punctuation during tokenization)?
 #'
 #' @return The character vector, cleaned as specified.
 #' @export
@@ -191,16 +195,19 @@ remove_diacritics <- function(text) {
 #'   "It has the bell character, \a, and the replacement character,",
 #'   intToUtf8(65533)
 #' )
-#' clean_text(example_text)
-#' clean_text(example_text, whitespace = FALSE)
-#' clean_text(example_text, control_characters = FALSE)
-#' clean_text(example_text, replacement_characters = FALSE)
-#' clean_text(example_text, diacritics = FALSE)
-clean_text <- function(text,
+#' prepare_text(example_text)
+#' prepare_text(example_text, whitespace = FALSE)
+#' prepare_text(example_text, control_characters = FALSE)
+#' prepare_text(example_text, replacement_characters = FALSE)
+#' prepare_text(example_text, diacritics = FALSE)
+prepare_text <- function(text,
                        whitespace = TRUE,
                        control_characters = TRUE,
                        replacement_characters = TRUE,
-                       diacritics = TRUE) {
+                       diacritics = TRUE,
+                       cjk = TRUE,
+                       punctuation = TRUE,
+                       ...) {
   text <- validate_utf8(text)
   if (whitespace) {
     text <- stringr::str_squish(text)
@@ -213,6 +220,12 @@ clean_text <- function(text,
   }
   if (diacritics) {
     text <- remove_diacritics(text)
+  }
+  if (cjk) {
+    text <- space_cjk(text)
+  }
+  if (punctuation) {
+    text <- space_punctuation(text, ...)
   }
 
   # Some of those processes can introduce hanging whitespace, so re-squish.

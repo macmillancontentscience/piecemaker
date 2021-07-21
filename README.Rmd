@@ -55,11 +55,11 @@ example_text <- paste(
   "It has the bell character, \a, and the replacement character,",
   intToUtf8(65533)
 )
-clean_text(example_text)
-clean_text(example_text, whitespace = FALSE)
-clean_text(example_text, control_characters = FALSE)
-clean_text(example_text, replacement_characters = FALSE)
-clean_text(example_text, diacritics = FALSE)
+prepare_text(example_text)
+prepare_text(example_text, whitespace = FALSE)
+prepare_text(example_text, control_characters = FALSE)
+prepare_text(example_text, replacement_characters = FALSE)
+prepare_text(example_text, diacritics = FALSE)
 ```
 
 ## Code of Conduct
