@@ -7,12 +7,14 @@
 prepare_text(
   text,
   whitespace = TRUE,
+  remove_terminal_hyphens = TRUE,
   control_characters = TRUE,
   replacement_characters = TRUE,
   diacritics = TRUE,
   cjk = TRUE,
   punctuation = TRUE,
-  ...
+  hyphens = TRUE,
+  abbreviations = TRUE
 )
 }
 \arguments{
@@ -20,6 +22,10 @@ prepare_text(
 
 \item{whitespace}{Logical scalar; squish whitespace characters (using
 \code{\link[stringr]{str_squish}})?}
+
+\item{remove_terminal_hyphens}{Logical; should hyphens at the end of lines
+after a word be removed? For example, "un-\\nbroken" would become
+"unbroken".}
 
 \item{control_characters}{Logical scalar; remove control characters?}
 
@@ -32,14 +38,11 @@ ideographs?}
 \item{punctuation}{Logical scalar; add spaces around punctuation (to make it
 easier to keep punctuation during tokenization)?}
 
-\item{...}{
-  Arguments passed on to \code{\link[=space_punctuation]{space_punctuation}}
-  \describe{
-    \item{\code{hyphens}}{Logical; treat hyphens between letters and at the start/end of
+\item{hyphens}{Logical; treat hyphens between letters and at the start/end of
 words as punctuation? Other hyphens are always treated as punctuation.}
-    \item{\code{abbreviations}}{Logical; treat apostrophes between letters as
+
+\item{abbreviations}{Logical; treat apostrophes between letters as
 punctuation? Other apostrophes are always treated as punctuation.}
-  }}
 
 \item{remove_replacement_characters}{Logical scalar; remove the "replacement
 character", \code{U-FFFD}?}

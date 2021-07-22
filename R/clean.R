@@ -163,6 +163,31 @@ remove_diacritics <- function(text) {
   )
 }
 
+#' Remove Extra Whitespace
+#'
+#' This function is mostly a wrapper around \code{\link[stringr]{str_squish}},
+#' with the additional option to remove hyphens at the ends of lines.
+#'
+#' @inheritParams validate_utf8
+#' @param remove_terminal_hyphens Logical; should hyphens at the end of lines
+#'   after a word be removed? For example, "un-\\nbroken" would become
+#'   "unbroken".
+#'
+#' @return The character vector with spacing at the start and end removed, and
+#'   with internal spacing reduced to a single space character each.
+#' @export
+#'
+#' @examples
+#' sample_text <- "This  had many space char-\\nacters."
+#' squish_whitespace(sample_text)
+squish_whitespace <- function(text, remove_terminal_hyphens = TRUE) {
+  if (remove_terminal_hyphens) {
+    text <- stringr::str_remove_all(text, "(?<=\\w)-\n")
+  }
+
+  return(stringr::str_squish(text))
+}
+
 #' Prepare Text for Tokenization
 #'
 #' This function combines the other functions in this package to prepare text
@@ -170,7 +195,8 @@ remove_diacritics <- function(text) {
 #' then various cleaning functions are applied.
 #'
 #' @inheritParams remove_control_characters
-#' @inheritDotParams space_punctuation
+#' @inheritParams squish_whitespace
+#' @inheritParams space_punctuation
 #' @param whitespace Logical scalar; squish whitespace characters (using
 #'   \code{\link[stringr]{str_squish}})?
 #' @param control_characters Logical scalar; remove control characters?
@@ -201,16 +227,18 @@ remove_diacritics <- function(text) {
 #' prepare_text(example_text, replacement_characters = FALSE)
 #' prepare_text(example_text, diacritics = FALSE)
 prepare_text <- function(text,
-                       whitespace = TRUE,
-                       control_characters = TRUE,
-                       replacement_characters = TRUE,
-                       diacritics = TRUE,
-                       cjk = TRUE,
-                       punctuation = TRUE,
-                       ...) {
+                         whitespace = TRUE,
+                         remove_terminal_hyphens = TRUE,
+                         control_characters = TRUE,
+                         replacement_characters = TRUE,
+                         diacritics = TRUE,
+                         cjk = TRUE,
+                         punctuation = TRUE,
+                         hyphens = TRUE,
+                         abbreviations = TRUE) {
   text <- validate_utf8(text)
   if (whitespace) {
-    text <- stringr::str_squish(text)
+    text <- squish_whitespace(text, remove_terminal_hyphens)
   }
   if (control_characters) {
     text <- remove_control_characters(text)
@@ -225,7 +253,11 @@ prepare_text <- function(text,
     text <- space_cjk(text)
   }
   if (punctuation) {
-    text <- space_punctuation(text, ...)
+    text <- space_punctuation(
+      text,
+      hyphens = hyphens,
+      abbreviations = abbreviations
+    )
   }
 
   # Some of those processes can introduce hanging whitespace, so re-squish.
