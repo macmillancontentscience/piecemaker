@@ -4,15 +4,16 @@
 \alias{space_punctuation}
 \title{Add Spaces Around Punctuation}
 \usage{
-space_punctuation(text, hyphens = TRUE, abbreviations = TRUE)
+space_punctuation(text, space_hyphens = TRUE, space_abbreviations = TRUE)
 }
 \arguments{
 \item{text}{A character vector to clean.}
 
-\item{hyphens}{Logical; treat hyphens between letters and at the start/end of
-words as punctuation? Other hyphens are always treated as punctuation.}
+\item{space_hyphens}{Logical; treat hyphens between letters and at the
+start/end of words as punctuation? Other hyphens are always treated as
+punctuation.}
 
-\item{abbreviations}{Logical; treat apostrophes between letters as
+\item{space_abbreviations}{Logical; treat apostrophes between letters as
 punctuation? Other apostrophes are always treated as punctuation.}
 }
 \value{
@@ -28,6 +29,6 @@ types of punctuation together as part of the word.
 to_space <- "This is some 'gosh-darn' $5 text. Isn't it lovely?"
 to_space
 space_punctuation(to_space)
-space_punctuation(to_space, hyphens = FALSE)
-space_punctuation(to_space, abbreviations = FALSE)
+space_punctuation(to_space, space_hyphens = FALSE)
+space_punctuation(to_space, space_abbreviations = FALSE)
 }

@@ -197,17 +197,17 @@ squish_whitespace <- function(text, remove_terminal_hyphens = TRUE) {
 #' @inheritParams remove_control_characters
 #' @inheritParams squish_whitespace
 #' @inheritParams space_punctuation
-#' @param whitespace Logical scalar; squish whitespace characters (using
+#' @param squish_whitespace Logical scalar; squish whitespace characters (using
 #'   \code{\link[stringr]{str_squish}})?
-#' @param control_characters Logical scalar; remove control characters?
+#' @param remove_control_characters Logical scalar; remove control characters?
 #' @param remove_replacement_characters Logical scalar; remove the "replacement
 #'   character", \code{U-FFFD}?
-#' @param diacritics Logical scalar; remove diacritical marks (accents, etc)
-#'   from characters?
-#' @param cjk Logical scalar; add spaces around Chinese/Japanese/Korean
+#' @param remove_diacritics Logical scalar; remove diacritical marks (accents,
+#'   etc) from characters?
+#' @param space_cjk Logical scalar; add spaces around Chinese/Japanese/Korean
 #'   ideographs?
-#' @param punctuation Logical scalar; add spaces around punctuation (to make it
-#'   easier to keep punctuation during tokenization)?
+#' @param space_punctuation Logical scalar; add spaces around punctuation (to
+#'   make it easier to keep punctuation during tokenization)?
 #'
 #' @return The character vector, cleaned as specified.
 #' @export
@@ -222,46 +222,46 @@ squish_whitespace <- function(text, remove_terminal_hyphens = TRUE) {
 #'   intToUtf8(65533)
 #' )
 #' prepare_text(example_text)
-#' prepare_text(example_text, whitespace = FALSE)
-#' prepare_text(example_text, control_characters = FALSE)
-#' prepare_text(example_text, replacement_characters = FALSE)
-#' prepare_text(example_text, diacritics = FALSE)
+#' prepare_text(example_text, squish_whitespace = FALSE)
+#' prepare_text(example_text, remove_control_characters = FALSE)
+#' prepare_text(example_text, remove_replacement_characters = FALSE)
+#' prepare_text(example_text, remove_diacritics = FALSE)
 prepare_text <- function(text,
-                         whitespace = TRUE,
+                         squish_whitespace = TRUE,
                          remove_terminal_hyphens = TRUE,
-                         control_characters = TRUE,
-                         replacement_characters = TRUE,
-                         diacritics = TRUE,
-                         cjk = TRUE,
-                         punctuation = TRUE,
-                         hyphens = TRUE,
-                         abbreviations = TRUE) {
+                         remove_control_characters = TRUE,
+                         remove_replacement_characters = TRUE,
+                         remove_diacritics = TRUE,
+                         space_cjk = TRUE,
+                         space_punctuation = TRUE,
+                         space_hyphens = TRUE,
+                         space_abbreviations = TRUE) {
   text <- validate_utf8(text)
-  if (whitespace) {
+  if (squish_whitespace) {
     text <- squish_whitespace(text, remove_terminal_hyphens)
   }
-  if (control_characters) {
+  if (remove_control_characters) {
     text <- remove_control_characters(text)
   }
-  if (replacement_characters) {
+  if (remove_replacement_characters) {
     text <- remove_replacement_characters(text)
   }
-  if (diacritics) {
+  if (remove_diacritics) {
     text <- remove_diacritics(text)
   }
-  if (cjk) {
+  if (space_cjk) {
     text <- space_cjk(text)
   }
-  if (punctuation) {
+  if (space_punctuation) {
     text <- space_punctuation(
       text,
-      hyphens = hyphens,
-      abbreviations = abbreviations
+      space_hyphens = space_hyphens,
+      space_abbreviations = space_abbreviations
     )
   }
 
   # Some of those processes can introduce hanging whitespace, so re-squish.
-  if (whitespace) {
+  if (squish_whitespace) {
     text <- stringr::str_squish(text)
   }
 

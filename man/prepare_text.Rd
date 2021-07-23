@@ -6,46 +6,47 @@
 \usage{
 prepare_text(
   text,
-  whitespace = TRUE,
+  squish_whitespace = TRUE,
   remove_terminal_hyphens = TRUE,
-  control_characters = TRUE,
-  replacement_characters = TRUE,
-  diacritics = TRUE,
-  cjk = TRUE,
-  punctuation = TRUE,
-  hyphens = TRUE,
-  abbreviations = TRUE
+  remove_control_characters = TRUE,
+  remove_replacement_characters = TRUE,
+  remove_diacritics = TRUE,
+  space_cjk = TRUE,
+  space_punctuation = TRUE,
+  space_hyphens = TRUE,
+  space_abbreviations = TRUE
 )
 }
 \arguments{
 \item{text}{A character vector to clean.}
 
-\item{whitespace}{Logical scalar; squish whitespace characters (using
+\item{squish_whitespace}{Logical scalar; squish whitespace characters (using
 \code{\link[stringr]{str_squish}})?}
 
 \item{remove_terminal_hyphens}{Logical; should hyphens at the end of lines
 after a word be removed? For example, "un-\\nbroken" would become
 "unbroken".}
 
-\item{control_characters}{Logical scalar; remove control characters?}
-
-\item{diacritics}{Logical scalar; remove diacritical marks (accents, etc)
-from characters?}
-
-\item{cjk}{Logical scalar; add spaces around Chinese/Japanese/Korean
-ideographs?}
-
-\item{punctuation}{Logical scalar; add spaces around punctuation (to make it
-easier to keep punctuation during tokenization)?}
-
-\item{hyphens}{Logical; treat hyphens between letters and at the start/end of
-words as punctuation? Other hyphens are always treated as punctuation.}
-
-\item{abbreviations}{Logical; treat apostrophes between letters as
-punctuation? Other apostrophes are always treated as punctuation.}
+\item{remove_control_characters}{Logical scalar; remove control characters?}
 
 \item{remove_replacement_characters}{Logical scalar; remove the "replacement
 character", \code{U-FFFD}?}
+
+\item{remove_diacritics}{Logical scalar; remove diacritical marks (accents,
+etc) from characters?}
+
+\item{space_cjk}{Logical scalar; add spaces around Chinese/Japanese/Korean
+ideographs?}
+
+\item{space_punctuation}{Logical scalar; add spaces around punctuation (to
+make it easier to keep punctuation during tokenization)?}
+
+\item{space_hyphens}{Logical; treat hyphens between letters and at the
+start/end of words as punctuation? Other hyphens are always treated as
+punctuation.}
+
+\item{space_abbreviations}{Logical; treat apostrophes between letters as
+punctuation? Other apostrophes are always treated as punctuation.}
 }
 \value{
 The character vector, cleaned as specified.
@@ -65,8 +66,8 @@ example_text <- paste(
   intToUtf8(65533)
 )
 prepare_text(example_text)
-prepare_text(example_text, whitespace = FALSE)
-prepare_text(example_text, control_characters = FALSE)
-prepare_text(example_text, replacement_characters = FALSE)
-prepare_text(example_text, diacritics = FALSE)
+prepare_text(example_text, squish_whitespace = FALSE)
+prepare_text(example_text, remove_control_characters = FALSE)
+prepare_text(example_text, remove_replacement_characters = FALSE)
+prepare_text(example_text, remove_diacritics = FALSE)
 }

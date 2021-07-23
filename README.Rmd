@@ -56,10 +56,10 @@ example_text <- paste(
   intToUtf8(65533)
 )
 prepare_text(example_text)
-prepare_text(example_text, whitespace = FALSE)
-prepare_text(example_text, control_characters = FALSE)
-prepare_text(example_text, replacement_characters = FALSE)
-prepare_text(example_text, diacritics = FALSE)
+prepare_text(example_text, squish_whitespace = FALSE)
+prepare_text(example_text, remove_control_characters = FALSE)
+prepare_text(example_text, remove_replacement_characters = FALSE)
+prepare_text(example_text, remove_diacritics = FALSE)
 ```
 
 ## Code of Conduct

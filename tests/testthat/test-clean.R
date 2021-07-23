@@ -113,32 +113,36 @@ test_that("prepare_text cleans text.", {
   )
 
   expect_identical(
-    prepare_text(example_text, whitespace = FALSE),
+    prepare_text(example_text, squish_whitespace = FALSE),
     " text    facile    text .  text ,   ,  text ,  "
   )
 
   expect_identical(
-    prepare_text(example_text, whitespace = FALSE, punctuation = FALSE),
+    prepare_text(
+      example_text,
+      squish_whitespace = FALSE,
+      space_punctuation = FALSE
+    ),
     " text    facile    text. text, , text, "
   )
 
   expect_identical(
-    prepare_text(example_text, control_characters = FALSE),
+    prepare_text(example_text, remove_control_characters = FALSE),
     "text facile text . text , \a , text ,"
   )
 
   expect_identical(
-    prepare_text(example_text, replacement_characters = FALSE),
+    prepare_text(example_text, remove_replacement_characters = FALSE),
     "text facile text . text , , text , \uFFFD"
   )
 
   expect_identical(
-    prepare_text(example_text, diacritics = FALSE),
+    prepare_text(example_text, remove_diacritics = FALSE),
     "text façile text . text , , text ,"
   )
 
   expect_identical(
-    prepare_text(example_text, cjk = FALSE),
+    prepare_text(example_text, space_cjk = FALSE),
     "text facile text . text , , text ,"
   )
 })

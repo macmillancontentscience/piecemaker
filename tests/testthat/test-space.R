@@ -79,14 +79,15 @@ test_that("Can space punctuation.", {
   expect_identical(test_result, expected_text1)
 
   test_result <- stringr::str_squish(
-    space_punctuation(input_text, hyphens = FALSE)
+    space_punctuation(input_text, space_hyphens = FALSE)
   )
   expect_identical(test_result, expected_text2)
 
   test_result <- stringr::str_squish(
     space_punctuation(
       input_text,
-      hyphens = FALSE, abbreviations = FALSE
+      space_hyphens = FALSE,
+      space_abbreviations = FALSE
     )
   )
   expect_identical(test_result, expected_text3)

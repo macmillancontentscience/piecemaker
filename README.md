@@ -51,13 +51,13 @@ example_text <- paste(
 )
 prepare_text(example_text)
 #> [1] "This is a facile example . It has the bell character , , and the replacement character ,"
-prepare_text(example_text, whitespace = FALSE)
+prepare_text(example_text, squish_whitespace = FALSE)
 #> [1] " This is a    facile    example .  It has the bell character ,   ,  and the replacement character ,  "
-prepare_text(example_text, control_characters = FALSE)
+prepare_text(example_text, remove_control_characters = FALSE)
 #> [1] "This is a facile example . It has the bell character , \a , and the replacement character ,"
-prepare_text(example_text, replacement_characters = FALSE)
+prepare_text(example_text, remove_replacement_characters = FALSE)
 #> [1] "This is a facile example . It has the bell character , , and the replacement character , <U+FFFD>"
-prepare_text(example_text, diacritics = FALSE)
+prepare_text(example_text, remove_diacritics = FALSE)
 #> [1] "This is a façile example . It has the bell character , , and the replacement character ,"
 ```
 
