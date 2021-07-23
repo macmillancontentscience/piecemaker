@@ -49,16 +49,16 @@ example_text <- paste(
   "It has the bell character, \a, and the replacement character,",
   intToUtf8(65533)
 )
-clean_text(example_text)
-#> [1] "This is a facile example. It has the bell character, , and the replacement character,"
-clean_text(example_text, whitespace = FALSE)
-#> [1] " This is a    facile    example. It has the bell character, , and the replacement character, "
-clean_text(example_text, control_characters = FALSE)
-#> [1] "This is a facile example. It has the bell character, \a, and the replacement character,"
-clean_text(example_text, replacement_characters = FALSE)
-#> [1] "This is a facile example. It has the bell character, , and the replacement character, <U+FFFD>"
-clean_text(example_text, diacritics = FALSE)
-#> [1] "This is a façile example. It has the bell character, , and the replacement character,"
+prepare_text(example_text)
+#> [1] "This is a facile example . It has the bell character , , and the replacement character ,"
+prepare_text(example_text, squish_whitespace = FALSE)
+#> [1] " This is a    facile    example .  It has the bell character ,   ,  and the replacement character ,  "
+prepare_text(example_text, remove_control_characters = FALSE)
+#> [1] "This is a facile example . It has the bell character , \a , and the replacement character ,"
+prepare_text(example_text, remove_replacement_characters = FALSE)
+#> [1] "This is a facile example . It has the bell character , , and the replacement character , <U+FFFD>"
+prepare_text(example_text, remove_diacritics = FALSE)
+#> [1] "This is a façile example . It has the bell character , , and the replacement character ,"
 ```
 
 ## Code of Conduct

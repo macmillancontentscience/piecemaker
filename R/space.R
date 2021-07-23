@@ -117,9 +117,11 @@ space_cjk <- function(text) {
 #' types of punctuation together as part of the word.
 #'
 #' @inheritParams validate_utf8
-#' @param hyphens Logical; should hyphens be treated as punctuation?
-#' @param abbreviations Logical; should ' between letters be treated as
-#'   punctuation?
+#' @param space_hyphens Logical; treat hyphens between letters and at the
+#'   start/end of words as punctuation? Other hyphens are always treated as
+#'   punctuation.
+#' @param space_abbreviations Logical; treat apostrophes between letters as
+#'   punctuation? Other apostrophes are always treated as punctuation.
 #'
 #' @return A character vector the same length as the input text, with spaces
 #'   added around punctuation characters.
@@ -129,12 +131,14 @@ space_cjk <- function(text) {
 #' to_space <- "This is some 'gosh-darn' $5 text. Isn't it lovely?"
 #' to_space
 #' space_punctuation(to_space)
-#' space_punctuation(to_space, hyphens = FALSE)
-#' space_punctuation(to_space, abbreviations = FALSE)
-space_punctuation <- function(text, hyphens = TRUE, abbreviations = TRUE) {
+#' space_punctuation(to_space, space_hyphens = FALSE)
+#' space_punctuation(to_space, space_abbreviations = FALSE)
+space_punctuation <- function(text,
+                              space_hyphens = TRUE,
+                              space_abbreviations = TRUE) {
   # This feels hacky but I can't find a better way than to protect the things I
   # want to preserve.
-  if (!hyphens) {
+  if (!space_hyphens) {
     hyphen_string <- "PIEC4EMAK2ERHYP4HENZ2XZ"
     text <- stringr::str_replace_all(
       text,
@@ -143,7 +147,7 @@ space_punctuation <- function(text, hyphens = TRUE, abbreviations = TRUE) {
     )
   }
 
-  if (!abbreviations) {
+  if (!space_abbreviations) {
     # We *attempt* to protect abbreviations, but there will be cases where we
     # miss, or treat apostrophes that were meant to be used as single quotes as
     # if they're part of an abbreviation.
@@ -165,14 +169,14 @@ space_punctuation <- function(text, hyphens = TRUE, abbreviations = TRUE) {
   )
 
   # Clean up the protections.
-  if (!hyphens) {
+  if (!space_hyphens) {
     text <- stringr::str_replace_all(
       text,
       hyphen_string,
       "-"
     )
   }
-  if (!abbreviations) {
+  if (!space_abbreviations) {
     text <- stringr::str_replace_all(
       text,
       apostrophe_string,
