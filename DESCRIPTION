@@ -1,6 +1,6 @@
 Package: piecemaker
 Title: Tools for Preparing Text for Tokenizers
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(
     person(given = "Jon",
            family = "Harmon",
@@ -17,7 +17,7 @@ Authors@R: c(
     )
 Description: Tokenizers break text into pieces that are more usable by machine 
     learning models. Many tokenizers share some preparation steps. This package
-    provides those shared steps.
+    provides those shared steps, along with a simple tokenizer.
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
