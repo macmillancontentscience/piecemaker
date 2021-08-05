@@ -163,10 +163,7 @@ space_punctuation <- function(text,
   # character class, so explicitly check for those characters. Specifically,
   # these are not: $+<=>^`|~
   punctuation_regex <- "\\p{P}|[$+<=>^`|~]"
-  text <- .space_regex_selector(
-    text,
-    punctuation_regex
-  )
+  text <- .space_regex_selector(text, punctuation_regex)
 
   # Clean up the protections.
   if (!space_hyphens) {
