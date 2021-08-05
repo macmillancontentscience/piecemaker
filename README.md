@@ -12,8 +12,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 Tokenizers break text into pieces that are more usable by machine
 learning models. While writing
 [wordpiece](https://github.com/jonathanbratt/wordpiece) and
-[morphemepiece](https://github.com/jonathanbratt/morphemepiece), we
-found that many steps were shared between those package. This package
+[morphemepiece](https://github.com/macmillancontentscience/morphemepiece),
+we found that many steps were shared between those package. This package
 provides those shared steps.
 
 ## Installation
