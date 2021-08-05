@@ -45,36 +45,44 @@ validate_utf8 <- function(text) {
   # Now try to coerce the leftovers to UTF-8.
   text[!in_encoding_status] <- purrr::map_chr(
     text[!in_encoding_status],
-    function(this_text) {
-      converted <- enc2utf8(this_text)
-      if (converted != this_text) {
-        # I can't find a way to trigger this but let's keep it in case.
-        error_message <- paste( # nocov start
-          "Unsupported string type in",
-          this_text
-        )
-        rlang::abort(
-          message = error_message,
-          class = "encoding_error"
-        ) # nocov end
-      }
-
-      # Now check whether we've created a monster.
-      if (!validEnc(converted)) {
-        error_message <- paste(
-          "Unsupported string type in",
-          this_text
-        )
-        rlang::abort(
-          message = error_message,
-          class = "encoding_error"
-        )
-      }
-      return(converted)
-    }
+    .coerce_to_utf8
   )
 
   return(text)
+}
+
+#' Coerce to UTF8
+#'
+#' @param this_text Character scalar; a piece of text to attemp to coerce.
+#'
+#' @return The text as UTF8.
+#' @keywords internal
+.coerce_to_utf8 <- function(this_text) {
+  converted <- enc2utf8(this_text)
+  if (converted != this_text) {
+    # I can't find a way to trigger this but let's keep it in case.
+    error_message <- paste( # nocov start
+      "Unsupported string type in",
+      this_text
+    )
+    rlang::abort(
+      message = error_message,
+      class = "encoding_error"
+    ) # nocov end
+  }
+
+  # Now check whether we've created a monster.
+  if (!validEnc(converted)) {
+    error_message <- paste(
+      "Unsupported string type in",
+      this_text
+    )
+    rlang::abort(
+      message = error_message,
+      class = "encoding_error"
+    )
+  }
+  return(converted)
 }
 
 #' Remove Non-Character Characters
