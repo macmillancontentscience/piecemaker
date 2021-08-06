@@ -22,8 +22,7 @@ You can install the released version of piecemaker from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-# Not yet.
-#install.packages("piecemaker")
+install.packages("piecemaker")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
