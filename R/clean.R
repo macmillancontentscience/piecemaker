@@ -55,7 +55,7 @@ validate_utf8 <- function(text) {
 
 #' Coerce to UTF8
 #'
-#' @param this_text Character scalar; a piece of text to attemp to coerce.
+#' @param this_text Character scalar; a piece of text to attempt to coerce.
 #'
 #' @return The text as UTF8.
 #' @keywords internal
