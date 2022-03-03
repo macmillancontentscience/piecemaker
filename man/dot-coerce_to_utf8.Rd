@@ -7,7 +7,7 @@
 .coerce_to_utf8(this_text)
 }
 \arguments{
-\item{this_text}{Character scalar; a piece of text to attemp to coerce.}
+\item{this_text}{Character scalar; a piece of text to attempt to coerce.}
 }
 \value{
 The text as UTF8.
