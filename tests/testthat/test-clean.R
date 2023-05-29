@@ -32,7 +32,7 @@ test_that("Can validate UTF8", {
 
   expect_error(
     validate_utf8(bad_character),
-    regexp = "Unsupported string type in",
+    regexp = "Unsupported string type in text",
     class = "encoding_error"
   )
 

@@ -36,55 +36,18 @@ validate_utf8 <- function(text) {
     )
   }
 
-  # Figure out which ones are fine as-is:
-  in_encoding_status <- validUTF8(text)
+  # Try to use internal tooling to just deal with this.
+  new_text <- iconv(text, to = "UTF-8", sub = "BAD")
 
-  # Make sure those ones are explicitly set.
-  Encoding(text[in_encoding_status]) <- "UTF-8"
+  bad_locations <- which(new_text != text)
+  if (!length(bad_locations)) {
+    return(new_text)
+  }
 
-  # Now try to coerce the leftovers to UTF-8.
-  text[!in_encoding_status] <- vapply(
-    X = text[!in_encoding_status],
-    FUN = .coerce_to_utf8,
-    FUN.VALUE = character(1),
-    USE.NAMES = FALSE
+  cli::cli_abort(
+    "Unsupported string type in text element(s): {bad_locations}.",
+    class = "encoding_error"
   )
-
-  return(text)
-}
-
-#' Coerce to UTF8
-#'
-#' @param this_text Character scalar; a piece of text to attempt to coerce.
-#'
-#' @return The text as UTF8.
-#' @keywords internal
-.coerce_to_utf8 <- function(this_text) {
-  converted <- enc2utf8(this_text)
-  if (converted != this_text) {
-    # I can't find a way to trigger this but let's keep it in case.
-    error_message <- paste( # nocov start
-      "Unsupported string type in",
-      this_text
-    )
-    rlang::abort(
-      message = error_message,
-      class = "encoding_error"
-    ) # nocov end
-  }
-
-  # Now check whether we've created a monster.
-  if (!validEnc(converted)) {
-    error_message <- paste(
-      "Unsupported string type in",
-      this_text
-    )
-    rlang::abort(
-      message = error_message,
-      class = "encoding_error"
-    )
-  }
-  return(converted)
 }
 
 #' Remove Non-Character Characters
