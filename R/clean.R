@@ -30,16 +30,22 @@
 #' validate_utf8(text)
 validate_utf8 <- function(text) {
   if (!is.character(text)) {
-    rlang::abort(
-      message = "text must be a character vector.",
+    cli::cli_abort(
+      "text must be a character vector.",
       class = "non_text_error"
     )
   }
 
-  # Try to use internal tooling to just deal with this.
-  new_text <- iconv(text, to = "UTF-8", sub = "BAD")
+  # The goal is to get the same result from the text, whenever possible,
+  # regardless of the system where the conversion is taking place. This means we
+  # need to use a couple different cleans to make sure the result is the same on
+  # every system, or produce errors when it isn't.
+  text <- enc2utf8(text)
 
-  bad_locations <- which(new_text != text)
+  # Try to use internal tooling to just deal with this.
+  new_text <- iconv(text, to = "UTF-8")
+
+  bad_locations <- which(is.na(new_text))
   if (!length(bad_locations)) {
     return(new_text)
   }
