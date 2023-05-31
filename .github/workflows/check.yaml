@@ -6,11 +6,23 @@ on:
   pull_request:
     branches: [main, master]
 
-name: session-info
+name: encoding-tests
 
 jobs:
-  session-info:
-    runs-on: ubuntu-latest
+  encoding-tests:
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macos-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: 'oldrel-1'}
+          - {os: ubuntu-latest,   r: 'oldrel-2'}
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -24,5 +36,10 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
 
       - name: Info
-        run: utils::sessionInfo()
+        run: |
+          bad_character <- "\xfa\xb4\xbf\xbf\x9f"
+          Encoding(bad_character) <- "UTF-8"
+          validUTF8(bad_character)
+          enc2utf8(bad_character)
+          iconv(bad_character, from = "UTF-8", to = "UTF-8")
         shell: Rscript {0}
