@@ -16,12 +16,14 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: windows-latest,   r: 'oldrel-1'}
+          - {os: windows-latest,   r: 'oldrel-2'}
+          - {os: windows-latest,   r: 'oldrel-3'}
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
           - {os: ubuntu-latest,   r: 'oldrel-2'}
+          - {os: ubuntu-latest,   r: 'oldrel-3'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -33,7 +35,7 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      # - uses: r-lib/actions/setup-r-dependencies@v2
 
       - name: Info
         run: |
@@ -42,4 +44,9 @@ jobs:
           validUTF8(bad_character)
           enc2utf8(bad_character)
           iconv(bad_character, from = "UTF-8", to = "UTF-8")
+          cat(bad_character)
+
+          converted <- enc2utf8(bad_character)
+          converted == bad_character
+          validEnc(bad_character)
         shell: Rscript {0}
