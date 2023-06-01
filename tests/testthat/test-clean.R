@@ -13,8 +13,15 @@
 # limitations under the License.
 
 test_that("Can validate UTF8", {
-  non_utf8_text <- c("fa\xE7ile", "no fancy characters")
-  Encoding(non_utf8_text) <- c("latin1", "unknown")
+  # Set up a file to read/write to try to make tests consistent across versions.
+
+  # non_utf8_facile <- "fa\xE7ile"
+  # Encoding(non_utf8_facile) <- "latin1"
+  # writeLines(non_utf8_facile, test_path("non_utf8_facile.txt"), useBytes = TRUE)
+
+  non_utf8_facile <- readLines(test_path("non_utf8_facile.txt"), encoding = "latin1")
+
+  non_utf8_text <- c(non_utf8_facile, "no fancy characters")
   utf8_text <- c("façile", "no fancy characters")
 
   expect_identical(
