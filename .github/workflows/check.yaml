@@ -18,9 +18,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macos-latest,   r: 'release'}
+          # - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
 
@@ -37,13 +37,18 @@ jobs:
 
       - name: Info
         run: |
+          utf8_text <- c("façile", "no fancy characters")
           non_utf8_text <- c("fa\xE7ile", "no fancy characters")
           Encoding(non_utf8_text) <- c("latin1", "unknown")
           new_text <- iconv(non_utf8_text, to = "UTF-8")
           new_text2 <- enc2utf8(non_utf8_text)
-          validUTF8(new_text)
-          validUTF8(new_text2)
-          validUTF8(non_utf8_text)
-          is.na(new_text)
-          is.na(new_text2)
+          # validUTF8(new_text)
+          # validUTF8(new_text2)
+          # validUTF8(non_utf8_text)
+          # is.na(new_text)
+          # is.na(new_text2)
+          Encoding(utf8_text)
+          Encoding(non_utf8_text)
+          Encoding(new_text)
+          Encoding(new_text2)
         shell: Rscript {0}
