@@ -36,12 +36,15 @@ validate_utf8 <- function(text) {
     )
   }
 
-  # See GHA tests. Remember to allow for NA in the incoming data!
-  new_text <- iconv(text, to = "UTF-8")
+  # There are two ways that one can update encoding of strings in base R. Using
+  # iconv() here gives different results across versions of R.
+  # new_text <- iconv(text, to = "UTF-8")
+  new_text <- enc2utf8(text)
 
   bad_locations <- which(
     !validUTF8(new_text) |
-      (is.na(new_text) & !is.na(text))
+      (is.na(new_text) & !is.na(text)) |
+      new_text != text
   )
   if (!length(bad_locations)) {
     return(new_text)
