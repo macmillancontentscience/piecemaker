@@ -36,16 +36,13 @@ validate_utf8 <- function(text) {
     )
   }
 
-  # The goal is to get the same result from the text, whenever possible,
-  # regardless of the system where the conversion is taking place. This means we
-  # need to use a couple different cleans to make sure the result is the same on
-  # every system, or produce errors when it isn't.
-  text <- enc2utf8(text)
-
-  # Try to use internal tooling to just deal with this.
+  # See GHA tests. Remember to allow for NA in the incoming data!
   new_text <- iconv(text, to = "UTF-8")
 
-  bad_locations <- which(is.na(new_text))
+  bad_locations <- which(
+    !validUTF8(new_text) |
+      (is.na(new_text) & !is.na(text))
+  )
   if (!length(bad_locations)) {
     return(new_text)
   }
