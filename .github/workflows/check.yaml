@@ -39,7 +39,7 @@ jobs:
         run: |
           non_utf8_text <- c("fa\xE7ile", "no fancy characters")
           Encoding(non_utf8_text) <- c("latin1", "unknown")
-          new_text <- iconv(utf8_text, to = "UTF-8")
+          new_text <- iconv(non_utf8_text, to = "UTF-8")
           new_text2 <- enc2utf8(non_utf8_text)
           validUTF8(new_text)
           validUTF8(new_text2)
