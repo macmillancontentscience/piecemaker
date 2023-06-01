@@ -41,15 +41,13 @@ jobs:
         run: |
           non_utf8_text <- c("fa\xE7ile", "no fancy characters")
           Encoding(non_utf8_text) <- c("latin1", "unknown")
-          utf8_text <- c("façile", "no fancy characters")
           bad_character <- "\xfa\xb4\xbf\xbf\x9f"
           Encoding(bad_character) <- "UTF-8"
-          mixed <- c(utf8_text, bad_character)
-          all(validUTF8(mixed))
-          converted1 <- enc2utf8(mixed)
-          converted2 <- iconv(mixed, from = "UTF-8", to = "UTF-8")
-          all(converted1 == mixed)
-          all(converted2 == mixed)
-          all(validEnc(converted1))
-          all(validEnc(converted2)) && !any(is.na(converted2))
+          mixed <- c(non_utf8_text, bad_character)
+
+          validUTF8(mixed)
+          converted2 <- iconv(mixed, to = "UTF-8")
+          converted2 == mixed
+          validEnc(converted2)
+          is.na(converted2)
         shell: Rscript {0}
