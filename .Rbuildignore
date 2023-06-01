@@ -6,3 +6,7 @@
 ^README\.Rmd$
 ^data-raw$
 ^cran-comments\.md$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

@@ -30,61 +30,30 @@
 #' validate_utf8(text)
 validate_utf8 <- function(text) {
   if (!is.character(text)) {
-    rlang::abort(
-      message = "text must be a character vector.",
+    cli::cli_abort(
+      "text must be a character vector.",
       class = "non_text_error"
     )
   }
 
-  # Figure out which ones are fine as-is:
-  in_encoding_status <- validUTF8(text)
+  # There are two ways that one can update encoding of strings in base R. Using
+  # iconv() here gives different results across versions of R.
+  # new_text <- iconv(text, to = "UTF-8")
+  new_text <- enc2utf8(text)
 
-  # Make sure those ones are explicitly set.
-  Encoding(text[in_encoding_status]) <- "UTF-8"
-
-  # Now try to coerce the leftovers to UTF-8.
-  text[!in_encoding_status] <- vapply(
-    X = text[!in_encoding_status],
-    FUN = .coerce_to_utf8,
-    FUN.VALUE = character(1),
-    USE.NAMES = FALSE
+  bad_locations <- which(
+    !validUTF8(new_text) |
+      (is.na(new_text) & !is.na(text)) |
+      new_text != text
   )
-
-  return(text)
-}
-
-#' Coerce to UTF8
-#'
-#' @param this_text Character scalar; a piece of text to attempt to coerce.
-#'
-#' @return The text as UTF8.
-#' @keywords internal
-.coerce_to_utf8 <- function(this_text) {
-  converted <- enc2utf8(this_text)
-  if (converted != this_text) {
-    # I can't find a way to trigger this but let's keep it in case.
-    error_message <- paste( # nocov start
-      "Unsupported string type in",
-      this_text
-    )
-    rlang::abort(
-      message = error_message,
-      class = "encoding_error"
-    ) # nocov end
+  if (!length(bad_locations)) {
+    return(new_text)
   }
 
-  # Now check whether we've created a monster.
-  if (!validEnc(converted)) {
-    error_message <- paste(
-      "Unsupported string type in",
-      this_text
-    )
-    rlang::abort(
-      message = error_message,
-      class = "encoding_error"
-    )
-  }
-  return(converted)
+  cli::cli_abort(
+    "Unsupported string type in text element(s): {bad_locations}.",
+    class = "encoding_error"
+  )
 }
 
 #' Remove Non-Character Characters

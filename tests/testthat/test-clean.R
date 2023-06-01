@@ -13,8 +13,10 @@
 # limitations under the License.
 
 test_that("Can validate UTF8", {
-  non_utf8_text <- c("fa\xE7ile", "no fancy characters")
-  Encoding(non_utf8_text) <- c("latin1", "unknown")
+  non_utf8_facile <- "fa\xE7ile"
+  Encoding(non_utf8_facile) <- "latin1"
+
+  non_utf8_text <- c(non_utf8_facile, "no fancy characters")
   utf8_text <- c("façile", "no fancy characters")
 
   expect_identical(
@@ -32,7 +34,7 @@ test_that("Can validate UTF8", {
 
   expect_error(
     validate_utf8(bad_character),
-    regexp = "Unsupported string type in",
+    regexp = "Unsupported string type in text",
     class = "encoding_error"
   )
 
