@@ -40,15 +40,15 @@ jobs:
           utf8_text <- c("façile", "no fancy characters")
           non_utf8_text <- c("fa\xE7ile", "no fancy characters")
           Encoding(non_utf8_text) <- c("latin1", "unknown")
-          new_text <- iconv(non_utf8_text, to = "UTF-8")
-          new_text2 <- enc2utf8(non_utf8_text)
-          # validUTF8(new_text)
-          # validUTF8(new_text2)
-          # validUTF8(non_utf8_text)
-          # is.na(new_text)
-          # is.na(new_text2)
+          new_utf8 <- iconv(utf8_text, to = "UTF-8")
+          new_non_utf8 <- iconv(non_utf8_text, to = "UTF-8")
+          utf8_text
+          new_utf8
+          non_utf8_text
+          new_non_utf8
           Encoding(utf8_text)
           Encoding(non_utf8_text)
-          Encoding(new_text)
-          Encoding(new_text2)
+          Encoding(new_utf8)
+          Encoding(new_non_utf8)
+          identical(new_utf8, new_non_utf8)
         shell: Rscript {0}
